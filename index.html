@@ -92,22 +92,23 @@
         <p id="miners-haven-count">Loading...</p>
     </div>
 
-    <!-- Add more game cards here as needed -->
 </div>
 
 <script>
     // Fetch the count for each game on page load
     async function fetchCount(game) {
         try {
+            console.log(`Fetching count for: ${game}`);
             const response = await fetch(`https://render-mzyi.onrender.com/count/${game}`);
             const data = await response.json();
             if (data.count !== undefined) {
                 document.getElementById(`${game.toLowerCase()}-count`).textContent = `Count: ${data.count}`;
             } else {
+                console.error(`Error fetching count for ${game}: ${data.error}`);
                 document.getElementById(`${game.toLowerCase()}-count`).textContent = 'Error loading count';
             }
         } catch (error) {
-            console.error('Failed to fetch count:', error);
+            console.error(`Failed to fetch count for ${game}:`, error);
             document.getElementById(`${game.toLowerCase()}-count`).textContent = 'Error loading count';
         }
     }
@@ -115,6 +116,7 @@
     // Increment the count for a specific game
     async function incrementCount(game) {
         try {
+            console.log(`Incrementing count for: ${game}`);
             const response = await fetch(`https://render-mzyi.onrender.com/increment/${game}`, {
                 method: 'POST',
                 headers: {
@@ -126,10 +128,10 @@
             if (data.count !== undefined) {
                 document.getElementById(`${game.toLowerCase()}-count`).textContent = `Count: ${data.count}`;
             } else {
-                console.error('Error incrementing count:', data.error);
+                console.error(`Error incrementing count for ${game}:`, data.error);
             }
         } catch (error) {
-            console.error('Failed to increment count:', error);
+            console.error(`Failed to increment count for ${game}:`, error);
         }
     }
 
