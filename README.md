@@ -90,7 +90,7 @@
         // Fetch and display the execution count
         async function fetchCount() {
             try {
-                const response = await fetch('https://your-backend-url.com/count');
+                const response = await fetch('https://render-mzyi.onrender.com/count');
                 const data = await response.json();
                 document.getElementById('count').textContent = data.count;
             } catch (error) {
