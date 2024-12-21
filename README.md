@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +7,12 @@
 </head>
 <body>
     <header>
-        <h1>Lua Script Execution Tracker</h1>
+        <h1>How many times has scripts developed by me been executed?</h1>
     </header>
     <main>
         <section class="tracker">
             <p>The script has been executed:</p>
-            <h2 id="count">Loading...</h2>
-            <p>times</p>
+            <h2 id="count">Loading...</h2><p>times</p>
         </section>
     </main>
     <footer>
