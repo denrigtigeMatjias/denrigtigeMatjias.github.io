@@ -45,7 +45,7 @@
                 // Make sure the element exists before trying to update it
                 const countElement = document.getElementById(`${game.toLowerCase()}-count`);
                 if (countElement) {
-                    countElement.textContent = `Count: ${data.count}`;
+                    countElement.textContent = `Script ran ${data.count} times`;
                 } else {
                     console.error(`Element with id ${game.toLowerCase()}-count not found`);
                 }
