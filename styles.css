@@ -1,0 +1,94 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f8f9fa; /* Light grey background */
+    color: #212529; /* Dark grey text */
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: #343a40; /* Dark grey */
+    color: #f8f9fa; /* Light text */
+    padding: 1.5rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Main Section */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.tracker {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.tracker p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.tracker h2 {
+    font-size: 3.5rem;
+    margin: 1rem 0;
+    color: #007bff; /* Blue */
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40; /* Dark grey */
+    color: #f8f9fa; /* Light text */
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Button (Optional for Refresh or Interaction) */
+button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker Blue */
+}
+
+button:active {
+    transform: scale(0.98); /* Click effect */
+}
