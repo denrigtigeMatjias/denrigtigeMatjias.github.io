@@ -7,9 +7,9 @@
     <style>
         /* General Body Styling */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,18 +17,21 @@
             justify-content: center;
             align-items: center;
             box-sizing: border-box;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* Header */
         header {
-            background-color: #333;
+            background: linear-gradient(135deg, #ff007f, #8000ff);
             color: #fff;
             width: 100%;
-            padding: 10px;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 24px;
+            margin-bottom: 50px;
+            font-size: 28px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         /* Game Container */
@@ -36,25 +39,30 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 30px;
+            margin-top: 30px;
         }
 
         /* Individual Game Cards */
         .game-card {
-            background-color: #fff;
+            background: #2b2b2b;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 280px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            width: 320px;
             padding: 20px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
         }
 
         /* Hover Effect on Cards */
         .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-15px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #ff007f, #8000ff);
+            border-color: #fff;
         }
 
         /* Game Image */
@@ -63,30 +71,32 @@
             height: 150px;
             object-fit: cover;
             border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Game Title */
         .game-card h3 {
             margin: 15px 0;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Counter Styling */
         .count {
             font-size: 18px;
             margin-top: 10px;
-            color: #333;
             font-weight: bold;
+            color: #fff;
             opacity: 1;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* Animations */
+        /* Animations for Count Updates */
         .count.updated {
             opacity: 0;
-            transform: scale(0.8);
+            transform: scale(0.9);
         }
 
         .count.fade-in {
@@ -94,26 +104,21 @@
             transform: scale(1);
         }
 
-        /* Game Card Text Updates */
-        .count {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
         /* Copy Button Styling */
         .copy-btn {
-            background-color: #4CAF50;
-            color: white;
+            background: #ff007f;
+            color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
             font-size: 16px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 15px;
-            transition: background-color 0.3s;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .copy-btn:hover {
-            background-color: #45a049;
+            background-color: #e6006c;
         }
 
         .copy-btn:active {
@@ -121,7 +126,7 @@
         }
 
         .copy-btn:disabled {
-            background-color: #ddd;
+            background-color: #666;
             cursor: not-allowed;
         }
 
@@ -133,16 +138,21 @@
         @keyframes clickAnimation {
             0% {
                 transform: scale(1);
-                background-color: #4CAF50;
+                background-color: #ff007f;
             }
             50% {
                 transform: scale(1.1);
-                background-color: #45a049;
+                background-color: #e6006c;
             }
             100% {
                 transform: scale(1);
-                background-color: #4CAF50;
+                background-color: #ff007f;
             }
+        }
+
+        /* Adding glow effect to copy button */
+        .copy-btn.glow-on-hover:hover {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.8);
         }
     </style>
 </head>
