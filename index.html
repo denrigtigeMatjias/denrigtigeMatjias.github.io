@@ -111,16 +111,24 @@
         fetchCount('Fisch');
         fetchCount('MinersHaven');
     });
-    
-    // Fetch the count from the server (example)
-    async function fetchCount() {
+    async function fetchCount(game) {
         try {
-            const response = await fetch('/get-count/Fisch');
+            console.log(`Fetching count for: ${game}`);
+            const response = await fetch(`https://render-mzyi.onrender.com/count/${game}`);
             const data = await response.json();
-            const newCount = data.count;  // Assuming the server returns the count
-            updateCount(newCount);  // Update and animate the count
+
+            const countElement = document.getElementById(`${game.toLowerCase()}-count`);
+            if (data.count !== undefined && countElement) {
+                // Start the smooth transition by adding the 'updating' class to hide the text
+                countElement.classList.add('updating');
+
+                // Wait for the transition to complete, then update the count
+                updateCount(newCount);
+            } else {
+                console.error(`Error fetching count for ${game}: ${data.error}`);
+            }
         } catch (error) {
-            console.error("Failed to fetch count:", error);
+            console.error(`Failed to fetch count for ${game}:`, error);
         }
     }
     
