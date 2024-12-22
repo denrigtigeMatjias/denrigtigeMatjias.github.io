@@ -18,7 +18,8 @@
             align-items: center;
             box-sizing: border-box;
             height: 100vh;
-            overflow: hidden;
+            overflow: auto; /* Allow scrolling if needed */
+            padding-top: 70px; /* Ensures game cards are below the fixed header */
         }
 
         /* Header */
@@ -39,11 +40,6 @@
             border-bottom: 2px solid #444; /* Navbar line */
         }
 
-        /* Body padding to prevent content being hidden under the header */
-        body {
-            padding-top: 70px;
-        }
-
         /* Game Container */
         .game-container {
             display: flex;
@@ -51,6 +47,7 @@
             flex-wrap: wrap;
             gap: 30px;
             margin-top: 30px;
+            padding-bottom: 50px; /* Prevent content from getting cut off when scrolling */
         }
 
         /* Individual Game Cards */
