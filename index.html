@@ -199,12 +199,20 @@
 
     async function fetchCount(game) {
         try {
-            const response = await fetch(`https://render-mzyi.onrender.com/count/${game}`);
+            const timestamp = new Date().getTime(); // Generate a timestamp to append as a query parameter
+            const url = `https://render-mzyi.onrender.com/count/${game}?t=${timestamp}`; // Add the timestamp to prevent caching
+    
+            console.log(`Fetching count for: ${game}`);
+            const response = await fetch(url);
             const data = await response.json();
+            
             if (data.count !== undefined) {
                 const countElement = document.getElementById(`${game.toLowerCase()}-count`);
                 if (countElement) {
+                    // Update the count and animate it
                     updateCount(game, data.count);
+                } else {
+                    console.error(`Element with id ${game.toLowerCase()}-count not found`);
                 }
             } else {
                 console.error(`Error fetching count for ${game}: ${data.error}`);
@@ -221,6 +229,19 @@
             }
         }
     }
+
+    // Function to check and update counts periodically
+    function startCountUpdates() {
+        fetchCount('Fisch');
+        fetchCount('MinersHaven');
+        setInterval(() => {
+            fetchCount('Fisch');
+            fetchCount('MinersHaven');
+        }, 3000); // Update every 3 seconds
+    }
+    
+    // Start periodic fetching of counts when the page is ready
+    document.addEventListener('DOMContentLoaded', startCountUpdates);
 
     function updateCount(game, newCount) {
         let countElement;
