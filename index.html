@@ -63,6 +63,16 @@
         .game-card:hover {
             transform: scale(1.05); /* Smoothly scale the card on hover */
         }
+
+        /* Animation for when the number changes */
+        .count.updated {
+            transform: scale(1.2); /* Slight zoom effect */
+            opacity: 0;
+        }
+
+        .count.updated.fade-in {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +113,8 @@
                 // Make sure the element exists before trying to update it
                 const countElement = document.getElementById(`${game.toLowerCase()}-count`);
                 if (countElement) {
-                    countElement.textContent = `Script ran ${data.count} times`;
+                    // Smoothly update the text
+                    updateCount(game, data.count);
                 } else {
                     console.error(`Element with id ${game.toLowerCase()}-count not found`);
                 }
@@ -136,6 +147,49 @@
 
     // Start periodic fetching of counts when the page is ready
     document.addEventListener('DOMContentLoaded', startCountUpdates);
+
+    let currentFischCount = 0;
+    let currentMinersHavenCount = 0;
+
+    // Function to update and animate the counter for a specific game
+    function updateCount(game, newCount) {
+        let countElement;
+        let currentCount;
+
+        // Select the appropriate count element and current count based on the game
+        if (game === 'Fisch') {
+            countElement = document.getElementById("fisch-count");
+            currentCount = currentFischCount;
+        } else if (game === 'MinersHaven') {
+            countElement = document.getElementById("minershaven-count");
+            currentCount = currentMinersHavenCount;
+        }
+
+        if (newCount !== currentCount) {
+            // Add animation class when the count changes
+            countElement.classList.add("updated");
+            // Adding a fade-in effect
+            setTimeout(() => {
+                countElement.classList.add("fade-in");
+            }, 200);  // Start fade-in after the scale effect begins
+
+            // Update the text content
+            setTimeout(() => {
+                countElement.textContent = `Script ran ${newCount} times`;
+                // Update the current count for the specific game
+                if (game === 'Fisch') {
+                    currentFischCount = newCount;
+                } else if (game === 'MinersHaven') {
+                    currentMinersHavenCount = newCount;
+                }
+            }, 500);  // Update text after the animation completes
+
+            // Remove animation classes after the animation completes
+            setTimeout(() => {
+                countElement.classList.remove("updated", "fade-in");
+            }, 800);  // 800ms to ensure all animations are completed
+        }
+    }
 </script>
 
 </body>
