@@ -124,6 +124,26 @@
             background-color: #ddd;
             cursor: not-allowed;
         }
+
+        /* Animation when button is clicked */
+        .copy-btn.copied {
+            animation: clickAnimation 0.5s ease forwards;
+        }
+
+        @keyframes clickAnimation {
+            0% {
+                transform: scale(1);
+                background-color: #4CAF50;
+            }
+            50% {
+                transform: scale(1.1);
+                background-color: #45a049;
+            }
+            100% {
+                transform: scale(1);
+                background-color: #4CAF50;
+            }
+        }
     </style>
 </head>
 <body>
@@ -138,15 +158,14 @@
         <img src="https://tr.rbxcdn.com/180DAY-bbd81795e6106d1ae2e324ae109d001b/512/512/Image/Webp/noFilter" alt="Fisch Game Image">
         <h3>Fisch</h3>
         <p id="fisch-count" class="count">Loading...</p>
-        <button class="copy-btn" id="fisch-copy" onclick="copyToClipboard('loadstring(game:HttpGet("https://raw.githubusercontent.com/denrigtigeMatjias/Fisch/refs/heads/main/main.lua?token=GHSAT0AAAAAAC3DC5NKRSWTOFOI6HPKXFCMZ3HMU2A"))()')">Copy Script</button>
+        <button class="copy-btn" id="fisch-copy" onclick="copyToClipboard('loadstring(game:HttpGet(\\"https://raw.githubusercontent.com/denrigtigeMatjias/Fisch/refs/heads/main.lua?token=GHSAT0AAAAAAC3DC5NKSBPKKHHW2HBFQKHWZ3HM5QQ\\"))()')">Copy Script</button>
     </div>
-
     <!-- MinersHaven Game Card -->
     <div class="game-card" id="miners-haven-card">
         <img src="https://tr.rbxcdn.com/180DAY-c946210662988fa7a8419a9830ab2a61/512/512/Image/Webp/noFilter" alt="Miners Haven Game Image">
         <h3>Miners Haven</h3>
         <p id="minershaven-count" class="count">Loading...</p>
-        <button class="copy-btn" id="minershaven-copy" onclick="copyToClipboard('loadstring(game:HttpGet("https://raw.githubusercontent.com/denrigtigeMatjias/Miners-Haven/refs/heads/main/main.lua"))()')">Copy Script</button>
+        <button class="copy-btn" id="minershaven-copy" onclick="copyToClipboard('loadstring(game:HttpGet(\\"https://raw.githubusercontent.com/denrigtigeMatjias/Miners-Haven/main.lua\\"))()')">Copy Script</button>
     </div>
 </div>
 
