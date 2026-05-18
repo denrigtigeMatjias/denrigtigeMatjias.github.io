@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="Small Logo bg removed.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get Key - Veltrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -212,23 +213,23 @@
       Linkvertise: linkvertise.com/dashboard → create link → destination URL = checkpoint.html
       Loot-Link:   lootlink.org/dashboard → create checkpoint → destination = checkpoint.html
     -->
-    <a class="gw-btn" href="https://link-hub.net/1271900/KzxEvR8oFFbT" target="_blank" rel="noopener">
+    <button class="gw-btn" onclick="openGateway(this, 'https://link-hub.net/1271900/KzxEvR8oFFbT')">
       <div class="gw-icon" style="background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.25)">🔗</div>
       <div class="gw-info">
         <div class="gw-name">Linkvertise</div>
         <div class="gw-desc">~60 seconds - complete a short ad process</div>
       </div>
       <span class="gw-arrow">↗</span>
-    </a>
+    </button>
 
-    <a class="gw-btn" href="https://loot-link.com/s?1w2yzDAE" target="_blank" rel="noopener">
+    <button class="gw-btn" onclick="openGateway(this, 'https://loot-link.com/s?1w2yzDAE')">
       <div class="gw-icon" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25)">💰</div>
       <div class="gw-info">
         <div class="gw-name">Loot-Link</div>
         <div class="gw-desc">~180 seconds - popular in the Roblox community</div>
       </div>
       <span class="gw-arrow">↗</span>
-    </a>
+    </button>
   </div>
 
   <div class="divider">already have a key?</div>
@@ -249,6 +250,24 @@
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 // Replace with your deployed Cloudflare Worker URL
 const WORKER_URL = "https://veltrix-worker.matjias.workers.dev";
+
+async function openGateway(btn, url) {
+  btn.style.opacity = "0.5";
+  btn.style.pointerEvents = "none";
+
+  try {
+    const res  = await fetch(`${WORKER_URL}/gateway-token`, { method: "POST" });
+    const data = await res.json();
+    if (!data.token) throw new Error();
+    localStorage.setItem("veltrix_gateway_token", data.token);
+    window.open(url, "_blank", "noopener");
+  } catch {
+    alert("Could not reach the key server. Check your connection and try again.");
+  } finally {
+    btn.style.opacity = "";
+    btn.style.pointerEvents = "";
+  }
+}
 
 async function verifyKey() {
   const key    = document.getElementById("key-input").value.trim().toUpperCase();
