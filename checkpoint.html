@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="Small Logo bg removed.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Key - Veltrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -223,6 +224,13 @@ function showState(id) {
   document.getElementById(id).classList.add("active");
 }
 
+// ── GATEWAY TOKEN CHECK ──────────────────────────────────────────────────────
+// Block direct access — user must have clicked a gateway button on getkey.html.
+const gatewayToken = localStorage.getItem("veltrix_gateway_token");
+if (!gatewayToken) {
+  showError("You must complete a gateway first. Go back and click Linkvertise or Loot-Link.");
+}
+
 // ── TURNSTILE CALLBACK ───────────────────────────────────────────────────────
 // Called automatically by Cloudflare Turnstile after the user passes the check.
 async function onTurnstileSuccess(token) {
@@ -232,7 +240,10 @@ async function onTurnstileSuccess(token) {
     const res = await fetch(`${WORKER_URL}/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ turnstile_token: token }),
+      body: JSON.stringify({
+        turnstile_token: token,
+        gateway_token:   localStorage.getItem("veltrix_gateway_token"),
+      }),
     });
 
     const data = await res.json();
@@ -242,6 +253,7 @@ async function onTurnstileSuccess(token) {
       return;
     }
 
+    localStorage.removeItem("veltrix_gateway_token");
     displayKey(data.key, data.expires_in);
 
   } catch (err) {
