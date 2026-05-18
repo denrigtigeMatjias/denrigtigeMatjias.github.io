@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Key — Veltrix</title>
+  <title>Your Key - Veltrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
-  <!-- Cloudflare Turnstile — free bot protection -->
+  <!-- Cloudflare Turnstile - free bot protection -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -169,7 +169,7 @@
       <!--
         SETUP: Replace data-sitekey with your Cloudflare Turnstile site key.
         Get it at: dash.cloudflare.com → Turnstile → Add Site
-        The site key is public — it's safe to put here.
+        The site key is public - it's safe to put here.
         The secret key goes into your Cloudflare Worker via: wrangler secret put TURNSTILE_SECRET
       -->
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADRzEXv7jkL4MLrY" data-callback="onTurnstileSuccess" data-theme="dark"></div>
@@ -186,10 +186,10 @@
     <div class="state" id="state-ready">
       <div class="key-icon">🔑</div>
       <div class="state-title">Your key is ready.</div>
-      <p class="state-sub">Copy it and paste it into the Veltrix prompt in your executor. The loader saves it automatically — you only need to do this once every 24 hours.</p>
+      <p class="state-sub">Copy it and paste it into the Veltrix prompt in your executor. The loader saves it automatically - you only need to do this once every 24 hours.</p>
 
       <div class="key-box" onclick="copyKey()">
-        <span class="key-text" id="key-display">—</span>
+        <span class="key-text" id="key-display">-</span>
         <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
         </svg>
@@ -262,7 +262,7 @@ function displayKey(key, ttl) {
 // ── COPY ────────────────────────────────────────────────────────────────────
 function copyKey() {
   const key = document.getElementById("key-display").textContent;
-  if (key === "—") return;
+  if (key === "-") return;
 
   navigator.clipboard.writeText(key).catch(() => {
     const ta = document.createElement("textarea");
