@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Get Key — Veltrix</title>
+  <title>Get Key - Veltrix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
   <style>
@@ -186,7 +186,7 @@
     Key System
   </div>
   <h1>Get your<br><span class="grad">Veltrix key.</span></h1>
-  <p class="sub">Keys are free and last 24 hours. Complete any gateway below to generate yours — takes under a minute.</p>
+  <p class="sub">Keys are free and last 24 hours. Complete any gateway below to generate yours - takes under a minute.</p>
 
   <div class="steps">
     <div class="step">
@@ -216,7 +216,7 @@
       <div class="gw-icon" style="background:rgba(255,140,0,.12);border:1px solid rgba(255,140,0,.25)">🔗</div>
       <div class="gw-info">
         <div class="gw-name">Linkvertise</div>
-        <div class="gw-desc">~30 seconds &mdash; complete a short ad process</div>
+        <div class="gw-desc">~60 seconds - complete a short ad process</div>
       </div>
       <span class="gw-arrow">↗</span>
     </a>
@@ -225,7 +225,7 @@
       <div class="gw-icon" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25)">💰</div>
       <div class="gw-info">
         <div class="gw-name">Loot-Link</div>
-        <div class="gw-desc">~30 seconds &mdash; popular in the Roblox community</div>
+        <div class="gw-desc">~180 seconds - popular in the Roblox community</div>
       </div>
       <span class="gw-arrow">↗</span>
     </a>
@@ -270,7 +270,7 @@ async function verifyKey() {
 
     if (data.valid) {
       const hours = Math.round(data.ttl / 3600);
-      status.textContent   = `✓ Valid key — expires in ~${hours} hour${hours !== 1 ? 's' : ''}.`;
+      status.textContent   = `✓ Valid key - expires in ~${hours} hour${hours !== 1 ? 's' : ''}.`;
       status.className     = "verify-status ok";
     } else {
       status.textContent   = "✕ Key not found or expired. Get a new one above.";
