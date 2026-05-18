@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Key — Veltrix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <!-- Cloudflare Turnstile — free bot protection -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0b0d12;
+      --card:   #13151c;
+      --border: #1e2130;
+      --text:   #e8eaf0;
+      --muted:  #6b7280;
+      --ok:     #22d3a5;
+      --accent: #7c5cfc;
+    }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', sans-serif; min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(124,92,252,.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 100%, rgba(91,141,238,.07) 0%, transparent 60%);
+    }
+
+    nav {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 64px;
+      background: rgba(11,13,18,.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.45rem; font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    .main {
+      position: relative; z-index: 1; flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem 2rem;
+      width: 100%; max-width: 480px; text-align: center;
+    }
+
+    /* ── STATES ── */
+    .state { display: none; }
+    .state.active { display: block; }
+
+    /* Verifying state */
+    .spinner-wrap { margin: 1.5rem auto 1.25rem; }
+
+    .spinner {
+      width: 48px; height: 48px; border-radius: 50%; margin: 0 auto;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Key state */
+    .key-icon {
+      width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 1.25rem;
+      background: rgba(34,211,165,.1); border: 1px solid rgba(34,211,165,.25);
+      display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    }
+
+    .state-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem; font-weight: 700; margin-bottom: .5rem;
+    }
+
+    .state-sub { font-size: .88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.75rem; }
+
+    /* Key display box */
+    .key-box {
+      background: rgba(0,0,0,.35); border: 1px solid rgba(124,92,252,.3);
+      border-radius: 12px; padding: 1rem 1.1rem;
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 1rem; cursor: pointer;
+      transition: border-color .2s;
+    }
+    .key-box:hover { border-color: rgba(124,92,252,.6); }
+
+    .key-text {
+      flex: 1; font-family: 'Courier New', monospace;
+      font-size: .82rem; color: #a78bfa;
+      text-align: left; word-break: break-all; line-height: 1.5;
+    }
+
+    .copy-icon { flex-shrink: 0; color: var(--muted); transition: color .2s; }
+    .key-box:hover .copy-icon { color: var(--accent); }
+
+    .copy-btn {
+      width: 100%; padding: .8rem;
+      background: linear-gradient(135deg, #7c5cfc, #5b8dee);
+      color: #fff; border: none; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s, transform .1s;
+      margin-bottom: 1.25rem;
+    }
+    .copy-btn:hover  { opacity: .88; }
+    .copy-btn:active { transform: scale(.97); }
+
+    .expiry-note {
+      font-size: .75rem; color: var(--muted);
+      background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      border-radius: 8px; padding: .5rem .9rem; display: inline-block;
+    }
+
+    /* Error state */
+    .error-icon {
+      width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 1.25rem;
+      background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.25);
+      display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    }
+
+    .retry-btn {
+      padding: .75rem 1.75rem;
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: .88rem; font-weight: 600;
+      cursor: pointer; transition: border-color .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .retry-btn:hover { border-color: rgba(124,92,252,.4); }
+
+    /* Turnstile widget centering */
+    .cf-turnstile { display: flex; justify-content: center; margin: 1.25rem 0; }
+
+    footer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 1.5rem; color: var(--muted); font-size: .75rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Veltrix</a>
+</nav>
+
+<div class="main">
+  <div class="card">
+
+    <!-- STATE: verifying Turnstile -->
+    <div class="state active" id="state-turnstile">
+      <div class="state-title">Almost there.</div>
+      <p class="state-sub">Complete the quick verification below to prove you're human — then your key will be generated instantly.</p>
+      <!--
+        SETUP: Replace data-sitekey with your Cloudflare Turnstile site key.
+        Get it at: dash.cloudflare.com → Turnstile → Add Site
+        The site key is public — it's safe to put here.
+        The secret key goes into your Cloudflare Worker via: wrangler secret put TURNSTILE_SECRET
+      -->
+      <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-callback="onTurnstileSuccess" data-theme="dark"></div>
+    </div>
+
+    <!-- STATE: generating key -->
+    <div class="state" id="state-generating">
+      <div class="spinner-wrap"><div class="spinner"></div></div>
+      <div class="state-title">Generating your key…</div>
+      <p class="state-sub">Hold on for a second.</p>
+    </div>
+
+    <!-- STATE: key ready -->
+    <div class="state" id="state-ready">
+      <div class="key-icon">🔑</div>
+      <div class="state-title">Your key is ready.</div>
+      <p class="state-sub">Copy it and paste it into the Veltrix prompt in your executor. The loader saves it automatically — you only need to do this once every 24 hours.</p>
+
+      <div class="key-box" onclick="copyKey()">
+        <span class="key-text" id="key-display">—</span>
+        <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </div>
+
+      <button class="copy-btn" id="copy-btn" onclick="copyKey()">Copy Key</button>
+      <span class="expiry-note" id="expiry-note">⏱ Expires in 24 hours</span>
+    </div>
+
+    <!-- STATE: error -->
+    <div class="state" id="state-error">
+      <div class="error-icon">⚠️</div>
+      <div class="state-title">Something went wrong.</div>
+      <p class="state-sub" id="error-msg">We couldn't generate your key. Please try again.</p>
+      <a class="retry-btn" href="getkey.html">← Back to Get Key</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>&copy; 2026 Veltrix</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+// Replace with your deployed Cloudflare Worker URL after running: wrangler deploy
+const WORKER_URL = "https://veltrix-worker.matjias.workers.dev";
+
+// ── STATE MANAGEMENT ────────────────────────────────────────────────────────
+function showState(id) {
+  document.querySelectorAll(".state").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// ── TURNSTILE CALLBACK ───────────────────────────────────────────────────────
+// Called automatically by Cloudflare Turnstile after the user passes the check.
+async function onTurnstileSuccess(token) {
+  showState("state-generating");
+
+  try {
+    const res = await fetch(`${WORKER_URL}/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ turnstile_token: token }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showError(data.error || "Server error. Please try again.");
+      return;
+    }
+
+    displayKey(data.key, data.expires_in);
+
+  } catch (err) {
+    showError("Could not reach the key server. Check your connection and try again.");
+  }
+}
+
+// ── DISPLAY KEY ─────────────────────────────────────────────────────────────
+function displayKey(key, ttl) {
+  document.getElementById("key-display").textContent = key;
+
+  const hours = Math.round(ttl / 3600);
+  document.getElementById("expiry-note").textContent = `⏱ Expires in ~${hours} hour${hours !== 1 ? "s" : ""}`;
+
+  showState("state-ready");
+}
+
+// ── COPY ────────────────────────────────────────────────────────────────────
+function copyKey() {
+  const key = document.getElementById("key-display").textContent;
+  if (key === "—") return;
+
+  navigator.clipboard.writeText(key).catch(() => {
+    const ta = document.createElement("textarea");
+    ta.value = key; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+  });
+
+  const btn = document.getElementById("copy-btn");
+  btn.textContent = "✓ Copied!";
+  setTimeout(() => { btn.textContent = "Copy Key"; }, 2000);
+}
+
+// ── ERROR ───────────────────────────────────────────────────────────────────
+function showError(msg) {
+  document.getElementById("error-msg").textContent = msg;
+  showState("state-error");
+}
+</script>
+</body>
+</html>
