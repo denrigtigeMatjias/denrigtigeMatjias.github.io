@@ -165,14 +165,14 @@
     <!-- STATE: verifying Turnstile -->
     <div class="state active" id="state-turnstile">
       <div class="state-title">Almost there.</div>
-      <p class="state-sub">Complete the quick verification below to prove you're human — then your key will be generated instantly.</p>
+      <p class="state-sub">Complete the quick verification below to prove you're human - then your key will be generated instantly.</p>
       <!--
         SETUP: Replace data-sitekey with your Cloudflare Turnstile site key.
         Get it at: dash.cloudflare.com → Turnstile → Add Site
         The site key is public — it's safe to put here.
         The secret key goes into your Cloudflare Worker via: wrangler secret put TURNSTILE_SECRET
       -->
-      <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-callback="onTurnstileSuccess" data-theme="dark"></div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAADRzEXv7jkL4MLrY" data-callback="onTurnstileSuccess" data-theme="dark"></div>
     </div>
 
     <!-- STATE: generating key -->
