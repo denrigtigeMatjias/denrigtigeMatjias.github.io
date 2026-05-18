@@ -260,7 +260,7 @@ async function openGateway(btn, url) {
     const data = await res.json();
     if (!data.token) throw new Error();
     localStorage.setItem("veltrix_gateway_token", data.token);
-    window.open(url, "_blank", "noopener");
+    window.location.href = url;
   } catch {
     alert("Could not reach the key server. Check your connection and try again.");
   } finally {
