@@ -813,17 +813,6 @@ function copyScript(id) {
 }
 
 // ─────────────────────────────────────────────
-//  FETCH COUNTS
-// ─────────────────────────────────────────────
-async function fetchCounts() {
-  try {
-    const res  = await fetch("https://veltrix-worker.matjias.workers.dev/executions");
-    const data = await res.json();
-    document.getElementById("total-execs").textContent = data.count ?? "—";
-  } catch (_) {}
-}
-
-// ─────────────────────────────────────────────
 //  TOAST
 // ─────────────────────────────────────────────
 function showToast(msg) {
@@ -831,6 +820,23 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+// ─────────────────────────────────────────────
+//  EXECUTION COUNT
+// ─────────────────────────────────────────────
+function formatCount(n) {
+  if (n < 1000) return String(n);
+  return Math.floor(n / 1000) + "k+";
+}
+
+async function fetchCounts() {
+  try {
+    const res  = await fetch("https://countapi.mileshilliard.com/api/v1/get/veltrix_hub");
+    const data = await res.json();
+    const n = parseInt(data.value) || 0;
+    document.getElementById("total-execs").textContent = formatCount(n);
+  } catch (_) {}
 }
 
 // ─────────────────────────────────────────────
